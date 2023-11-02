@@ -17,7 +17,7 @@ class CreateDocumentsTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('titre');
-            $table->integer('etat')->default(0)->comment('0 = encours, 1 = accepte');
+            $table->string('file');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

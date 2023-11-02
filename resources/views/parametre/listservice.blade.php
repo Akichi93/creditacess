@@ -38,12 +38,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div>
-                    <table class="table table-striped custom-table mb-0 datatable">
+                    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th class="width-thirty">#</th>
                                 <th>Nom du service</th>
-                                <th class="text-end">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,57 +52,48 @@
 
                                     <td>6</td>
                                     <td>{{ $service->nom_service }}</td>
-                                    <td class="text-end">
-                                        <div class="dropdown dropdown-action">
-                                            <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
-                                                aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#edit_department--{{ $service->id }}"><i
-                                                        class="fa-solid fa-pencil m-r-5"></i> Modifier</a>
-
-                                            </div>
+                                    <td>
+                                        <a href="#" data-bs-toggle="modal"
+                                            data-bs-target="#edit_department--{{ $service->id }}"><i
+                                                class="fa-solid fa-pencil m-r-5"></i> Modifier</a>
 
 
-                                        </div>
-                                    </td>
-                                    <div id="edit_department--{{ $service->id }}" class="modal custom-modal fade"
-                                        role="dialog">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Modifier service</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form role="form" method="POST"
-                                                        action="{{ route('service.update', $service->id) }}">
-                                                        {{ csrf_field() }}
-                                                        <div class="input-block mb-3">
-                                                            <label class="col-form-label">Nom du service <span
-                                                                    class="text-danger">*</span></label>
-                                                            <input class="form-control" name="nom_service"
-                                                                value="{{ $service->nom_service }}" type="text">
-                                                        </div>
-                                                        <div class="submit-section">
-                                                            <button type="submit" class="btn btn-primary submit-btn">Modifier</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
+                </td>
+                <div id="edit_department--{{ $service->id }}" class="modal custom-modal fade" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modifier service</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form" method="POST" action="{{ route('service.update', $service->id) }}">
+                                    {{ csrf_field() }}
+                                    <div class="input-block mb-3">
+                                        <label class="col-form-label">Nom du service <span
+                                                class="text-danger">*</span></label>
+                                        <input class="form-control" name="nom_service" value="{{ $service->nom_service }}"
+                                            type="text">
+                                    </div>
+                                    <div class="submit-section">
+                                        <button type="submit" class="btn btn-primary submit-btn">Modifier</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </tr>
+                @endforeach
+                </tbody>
+                </table>
             </div>
         </div>
+    </div>
     </div>
 
     <div id="add_department" class="modal custom-modal fade" role="dialog">

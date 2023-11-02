@@ -20,12 +20,29 @@
         </div>
 
 
+        @if ($errors->any())
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
+        @if ($message = Session::get('success'))
+            <div class="alert alert-primary alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
 
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table table-striped custom-table datatable">
+
+                    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Nom</th>
@@ -63,7 +80,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-
                         </tbody>
                     </table>
                 </div>
@@ -146,53 +162,49 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Type de contrat</label>
-                                    <select class="form-control" name="type_contrat">
-                                        <option value="null">Selectionnez un type de contrat</option>
-                                        <option value="STAGE">StAGE</option>
-                                        <option value="CDD">CDD</option>
-                                        <option value="CDI">CDI</option>
+                                    <label>Rôle</label>
+                                    <select class="form-control" name="role">
+                                        <option value="null">Selectionnez un rôle</option>
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="USER">USER</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="debut">Date de début</label>
-                                        <input class="form-control" type="date" id="debut" name="date_debut" required>
+                                        <label for="debut">Date d'embauche</label>
+                                        <input class="form-control" type="date" id="debut"
+                                            name="date_debut_embauche" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="d-block">Ce collaborateur est il responsable?</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input respooui" type="radio" name="respo"
+                                            id="gender_male" value="OUI">
+                                        <label class="form-check-label" for="gender_male">Oui</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input responon" type="radio" name="respo"
+                                            id="gender_female" value="NON">
+                                        <label class="form-check-label" for="gender_female">Non</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="fin">Date de fin</label>
-                                        <input class="form-control" type="date" id="fin" name="date_fin" required>
+                                    <label class="d-block">Ce collaborateur appatient il au service RH?</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input collabooui" type="radio" name="rh"
+                                            id="gender_male" value="OUI">
+                                        <label class="form-check-label" for="gender_male">Oui</label>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="d-block">Ce collaborateur est il responsable?</label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input respooui" type="radio" name="respo"
-                                        id="gender_male" value="OUI">
-                                    <label class="form-check-label" for="gender_male">Oui</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input responon" type="radio" name="respo"
-                                        id="gender_female" value="NON">
-                                    <label class="form-check-label" for="gender_female">Non</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <label class="d-block">Ce collaborateur appatient il au service RH?</label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input collabooui" type="radio" name="rh"
-                                        id="gender_male" value="OUI">
-                                    <label class="form-check-label" for="gender_male">Oui</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input collabonon" type="radio" name="rh"
-                                        id="gender_female" value="NON">
-                                    <label class="form-check-label" for="gender_female">Non</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input collabonon" type="radio" name="rh"
+                                            id="gender_female" value="NON">
+                                        <label class="form-check-label" for="gender_female">Non</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

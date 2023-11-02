@@ -49,15 +49,17 @@
                         <li><a href="{{ url('/personnel') }}">Gestions du personnels</a></li>
                     </ul>
                 </li>
-
-                <li class="submenu">
-                    <a href="#"><i class="la la-cog"></i> <span> Parametre </span> <span
-                            class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="{{ url('/users') }}"> Utilisateurs </a></li>
-                        <li><a href="{{ url('/services') }}"> Services </a></li>
-                    </ul>
-                </li>
+                
+                @if (Auth::user()->role == 'ADMIN')
+                    <li class="submenu">
+                        <a href="#"><i class="la la-cog"></i> <span> Parametre </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="{{ url('/users') }}"> Utilisateurs </a></li>
+                            <li><a href="{{ url('/services') }}"> Services </a></li>
+                        </ul>
+                    </li>
+                @endif
 
 
 

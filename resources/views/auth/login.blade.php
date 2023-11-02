@@ -1,73 +1,99 @@
-{{-- @extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none">
 
-@section('content') --}}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smarthr - Bootstrap Admin Template">
+    <meta name="keywords"
+        content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
+    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+    <title>Connexion - Gestion RH</title>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 
+    <link rel="stylesheet" href="assets/css/line-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/material.css">
+
+    <link rel="stylesheet" href="assets/css/line-awesome.min.css">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="account-page">
+
+    <div class="main-wrapper">
+        <div class="account-content">
+
+            <div class="container">
+
+                <div class="account-logo">
+                    <a href="admin-dashboard.html"><img src="assets/img/logo2.png" alt="Dreamguy's Technologies"></a>
+                </div>
+
+                <div class="account-box">
+                    <div class="account-wrapper">
+                        <h3 class="account-title">Connexion</h3>
+
+
+                        <form method="POST" action="{{ route('login') }}">
+                            @csrf
+                            <div class="input-block mb-4">
+                                <label class="col-form-label">Email</label>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                    name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
+                            <div class="input-block mb-4">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <label class="col-form-label">Mot de passe</label>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a class="text-muted" href="forgot-password.html">
+                                            Mot de passe oublié?
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="position-relative">
+                                    <input id="password" type="password"
+                                        class="form-control @error('password') is-invalid @enderror" name="password"
+                                        required autocomplete="current-password">
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
+                            <div class="input-block mb-4 text-center">
+                                <button class="btn btn-primary account-btn" type="submit">Login</button>
                             </div>
-                        </div>
-                    </form>
+
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-{{-- @endsection --}}
+
+
+    <script src="assets/js/jquery-3.7.0.min.js"></script>
+
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+    <script src="assets/js/app.js"></script>
+</body>
+
+</html>

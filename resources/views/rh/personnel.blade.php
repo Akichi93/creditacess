@@ -26,7 +26,7 @@
             
             <div class="profile-widget">
                 <div class="profile-img">
-                    <a href="{{route('users.details', encrypt($user->id))}}" class="avatar"><img src="assets/img/profiles/avatar-08.jpg"
+                    <a href="{{route('users.details', encrypt($user->id))}}" class="avatar"><img src="{{ asset('utilisateur.png') }}"
                             alt="User Image"></a>
                 </div>
               

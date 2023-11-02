@@ -32,9 +32,12 @@ Route::group(['middleware' => ['web']], function () {
     //Utilisateurs
     Route::get('/users', [UserController::class, 'userList']);
     Route::post('/adduser', [UserController::class, 'userAdd'])->name('user.add');
-    Route::post('/uploaddoc', [UserController::class, 'uploadDoc'])->name('upload.doc');
+    Route::post('/uploaddoc/{id}', [UserController::class, 'uploadDoc'])->name('upload.doc');
+    Route::post('/updateuser/{id}', [UserController::class, 'updateUser'])->name('user.update');
+    Route::post('/contratuser/{id}', [UserController::class, 'contratUser'])->name('user.contrat');
     Route::get('/personnel', [UserController::class, 'personnel']);
     Route::get('/details/{id}', [UserController::class, 'details'])->name('users.details');
+
 
     //services
     Route::get('/services', [ServiceController::class, 'serviceList']);

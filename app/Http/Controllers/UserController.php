@@ -254,7 +254,7 @@ class UserController extends Controller
         }
     }
 
-    public function restPassword(Request $request)
+    public function resetPassword(Request $request)
     {
         $rules = [
             'email' => 'required',
@@ -275,8 +275,6 @@ class UserController extends Controller
             $colors = dechex(mt_rand(0, 16777215));
             $color = str_pad($colors, 6, '0');
             $random_password = "#" . '' . $color;
-
-            $random_password = "12345678";
 
             //Encodage
             $new_password = bcrypt($random_password);

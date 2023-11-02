@@ -59,11 +59,11 @@
                         <p class="account-subtitle">Saisissez votre courriel pour obtenir un lien de réinitialisation du
                             mot de passe</p>
 
-                        <form method="POST" action="{{ route('resetPassword') }}">
+                        <form method="POST" action="{{ route('user.reset') }}">
                             @csrf
                             <div class="input-block mb-4">
                                 <label class="col-form-label">Email</label>
-                                <input class="form-control" type="text">
+                                <input class="form-control" type="text" name="email">
                             </div>
                             <div class="input-block mb-4 text-center">
                                 <button class="btn btn-primary account-btn" type="submit">Renitialiser</button>

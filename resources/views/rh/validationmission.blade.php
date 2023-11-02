@@ -6,13 +6,13 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title">Conges</h3>
+                    <h3 class="page-title">Mission</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('home') }}">Tableau de bord</a></li>
-                        <li class="breadcrumb-item active">Conges</li>
+                        <li class="breadcrumb-item active">Mission</li>
                     </ul>
                 </div>
-               
+
             </div>
         </div>
 
@@ -40,42 +40,40 @@
                     <table class="table table-striped custom-table leave-employee-table mb-0 datatable">
                         <thead>
                             <tr>
-                                <th>Type</th>
-                                <th>De</th>
-                                <th>A</th>
-                                <th>Nombre de jour</th>
-                                <th>Date de retour</th>
-                                <th>Motif</th>
+                                <th>Agence</th>
+                                <th>Collaborateur</th>
+                                <th>Date de debut</th>
+                                <th>Date de fin</th>
+                                <th>Frais</th>
                                 <th class="text-center">Etat</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @foreach ($conges as $conge)
+                            @foreach ($missions as $mission)
                                 <tr>
-                                    <td>{{ $conge->type_conge }}</td>
-                                    <td>{{ $conge->date_debut }}</td>
-                                    <td>{{ $conge->date_fin }}</td>
-                                    <td>{{ $conge->duree }} jour(s)</td>
-                                    <td>{{ $conge->date_retour }}</td>
-                                    <td>{{ $conge->motif }}</td>
+                                    <td>{{ $mission->agence }}</td>
+                                    <td>{{ $mission->name }} {{ $mission->prenom }}</td>
+                                    <td>{{ $mission->date_debut }}</td>
+                                    <td>{{ $mission->date_fin }} jour(s)</td>
+                                    <td>{{ $mission->frais }}</td>
                                     <td class="text-center">
-                                        @if ($conge->etat == 0)
+                                        @if ($mission->etat == 0)
                                             <span class="badge bg-inverse-secondary">EN COURS</span>
-                                        @elseif($conge->etat == 1)
+                                        @elseif($mission->etat == 1)
                                             <span class="badge bg-inverse-warning">ACCEPTER</span>
-                                        @elseif($conge->etat == 2)
+                                        @elseif($mission->etat == 2)
                                             <span class="badge bg-inverse-success">VALIDER</span>
-                                        @elseif($conge->etat == 3)
+                                        @elseif($mission->etat == 3)
                                             <span class="badge bg-inverse-danger">REFUSER</span>
                                         @endif
                                     </td>
                                     <td>
 
 
-                                        @if ($conge->etat == 1)
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#view_approve"><i
+                                        @if ($mission->etat == 1)
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#view_approve--{{ $mission->id }}"><i
                                                     class="fa fa-eye m-r-5"></i>
                                             </a>
                                         @else
@@ -89,7 +87,7 @@
                                                             <h3> Validation</h3>
                                                         </div>
                                                         <form role="form" method="POST"
-                                                            action="{{ route('conge.validaterespo', $conge->id) }}">
+                                                            action="{{ route('mission.validaterh', $mission->id) }}">
                                                             {{ csrf_field() }}
 
                                                             <div class="form-group">
@@ -99,11 +97,6 @@
                                                                     <option value="1">ACCEPTER</option>
                                                                     <option value="3">REFUSER</option>
                                                                 </select>
-                                                            </div>
-
-                                                            <div class="form-group">
-                                                                <label>Motif <span class="text-danger">*</span></label>
-                                                                <textarea rows="4" class="form-control" name="motif_etat"></textarea>
                                                             </div>
                                                             <div class="submit-section">
                                                                 <button

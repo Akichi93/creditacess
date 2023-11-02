@@ -2,10 +2,10 @@
 
     <div class="header-left">
         <a href="admin-dashboard.html" class="logo">
-            <img src="assets/img/logo.png" width="40" height="40" alt="Logo">
+            <img src="{{ asset('logo.png') }}" width="40" height="40" alt="Logo">
         </a>
         <a href="admin-dashboard.html" class="logo2">
-            <img src="assets/img/logo2.png" width="40" height="40" alt="Logo">
+            <img src="{{ asset('logo.png') }}" width="40" height="40" alt="Logo">
         </a>
     </div>
 
@@ -53,7 +53,6 @@
 
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="profile.html">Mon pofile</a>
                 <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Se
                     deconnecter</a>
@@ -70,7 +69,6 @@
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
                 class="fa-solid fa-ellipsis-vertical"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="profile.html">Mon profile</a>
             <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Se deconnecter</a>
 

@@ -1,0 +1,1 @@
+<h3>Bonjour, votre demande à été <b>{{ $etat }} par la DRH</b></h3>

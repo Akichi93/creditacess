@@ -34,7 +34,7 @@
             <div class="container">
 
                 <div class="account-logo">
-                    <a href="admin-dashboard.html"><img src="assets/img/logo2.png" alt="Dreamguy's Technologies"></a>
+                    <a href="admin-dashboard.html"><img src="{{ asset('logo.png') }}" alt="LOGO"></a>
                 </div>
 
                 <div class="account-box">
@@ -60,7 +60,7 @@
                                         <label class="col-form-label">Mot de passe</label>
                                     </div>
                                     <div class="col-auto">
-                                        <a class="text-muted" href="forgot-password.html">
+                                        <a class="text-muted" href="{{ url('/reset') }}">
                                             Mot de passe oublié?
                                         </a>
                                     </div>
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="input-block mb-4 text-center">
-                                <button class="btn btn-primary account-btn" type="submit">Login</button>
+                                <button class="btn btn-primary account-btn" type="submit">Se connecter</button>
                             </div>
 
                         </form>

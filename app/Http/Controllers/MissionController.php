@@ -50,9 +50,9 @@ class MissionController extends Controller
         $conge = new Mission();
         $conge->frais_mission = $request->frais_mission;
         $conge->agence = $request->agence;
-        // $conge->date_debut = $request->date_debut;
-        // $conge->date_fin = $request->date_fin;
-        // $conge->description = $request->description;
+        $conge->date_debut = $request->date_debut;
+        $conge->date_fin = $request->date_fin;
+        $conge->description = $request->description;
         $conge->respo_id = $respoId;
         $conge->user_id = $user->id;
         $conge->etat = $etat;
@@ -61,14 +61,56 @@ class MissionController extends Controller
         return back()->with('success', 'Mission ajouté avec succes');
     }
 
-    public function missionAll(){
-        $missions = Mission::join("users", 'users.id', '=', 'mission.user_id')->get();
+    public function missionAll()
+    {
+        $missions = Mission::join("users", 'users.id', '=', 'missions.user_id')->get();
         return view('rh.validationmission')->with(compact('missions'));
     }
 
-    public function missionRespo(){
+    public function missionRespo()
+    {
         $respo = Respo::join("users", 'users.id', '=', 'respos.user_id')->where('user_id', Auth::user()->id)->value('respos.id');
-        $missions = Mission::join("users", 'users.id', '=', 'mission.user_id')->where('respo_id', $respo)->get();
+        $missions = Mission::join("users", 'users.id', '=', 'missions.user_id')->where('respo_id', $respo)->get();
         return view('mission.validation')->with(compact('missions'));
+    }
+
+    public function validateRh(Request $request, $id)
+    {
+        //validation
+        $rules = [
+            'etat' => 'required',
+        ];
+
+        $customMessages = [
+            'etat.required' => 'Veuillez entrez le nom de l\'agence',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+
+        $missions = Mission::find($id);
+        $missions->etat = $request->etat;
+        $missions->save();
+
+        return back()->with('success', 'Mission validé avec succes');
+    }
+
+    public function validateRespo(Request $request, $id)
+    {
+        //validation
+        $rules = [
+            'etat' => 'required',
+        ];
+
+        $customMessages = [
+            'etat.required' => 'Veuillez entrez le nom de l\'agence',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+        
+        $missions = Mission::find($id);
+        $missions->etat = $request->etat;
+        $missions->save();
+
+        return back()->with('success', 'Mission validé avec succes');
     }
 }

@@ -27,6 +27,91 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+    <style type="text/css">
+        .highcharts-figure,
+        .highcharts-data-table table {
+            min-width: 310px;
+            max-width: 800px;
+            margin: 1em auto;
+        }
+
+        #container {
+            height: 400px;
+        }
+
+        .highcharts-data-table table {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #ebebeb;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .highcharts-data-table caption {
+            padding: 1em 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .highcharts-data-table th {
+            font-weight: 600;
+            padding: 0.5em;
+        }
+
+        .highcharts-data-table td,
+        .highcharts-data-table th,
+        .highcharts-data-table caption {
+            padding: 0.5em;
+        }
+
+        .highcharts-data-table thead tr,
+        .highcharts-data-table tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        .highcharts-data-table tr:hover {
+            background: #f1f7ff;
+        }
+
+        #datatable {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #ebebeb;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        #datatable caption {
+            padding: 1em 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        #datatable th {
+            font-weight: 600;
+            padding: 0.5em;
+        }
+
+        #datatable td,
+        #datatable th,
+        #datatable caption {
+            padding: 0.5em;
+        }
+
+        #datatable thead tr,
+        #datatable tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        #datatable tr:hover {
+            background: #f1f7ff;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,8 +128,10 @@
         </div>
 
         <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
         <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
         <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        @stack('script-page')
         <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -88,6 +175,7 @@
                 });
             });
         </script>
+        @stack('graph')
 
         <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
@@ -102,6 +190,28 @@
         <script src="{{ asset('assets/js/theme-settings.js') }}"></script>
 
         <script src="{{ asset('assets/js/app.js') }}"></script>
+        @yield('script')
+
+        <!-- Sidebar-->
+        <script>
+            $(document).ready(function() {
+                var urlcourant = document.location.href
+                urlcourant = urlcourant.replace(/\/$/, "")
+                var queurl = urlcourant.substring(urlcourant.lastIndexOf("/") + 1)
+                // console.log(queurl)
+                if (queurl == 'createcontrat') {
+                    queurl = 'contrat'
+                } else if (queurl.includes("addavenant")) {
+                    queurl = 'contrat'
+                }
+                // alert(queurl)
+                $("#" + queurl).addClass("active")
+                $("#" + queurl).parents().eq(0).toggle();
+                //#####################################################
+                var subdrop = $("#" + queurl).parents().eq(1).children().eq(0)
+                subdrop.children().eq(2).css("transform", "rotate(90deg)")
+            })
+        </script>
 </body>
 
 </html>

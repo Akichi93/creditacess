@@ -12,7 +12,7 @@
                         <li class="breadcrumb-item active">Conges</li>
                     </ul>
                 </div>
-               
+
             </div>
         </div>
 
@@ -75,13 +75,15 @@
 
 
                                         @if ($conge->etat == 1)
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#view_approve"><i
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#view_approve--{{ $conge->id }}"><i
                                                     class="fa fa-eye m-r-5"></i>
                                             </a>
                                         @else
                                             Pas d'action
                                         @endif
-                                        <div class="modal custom-modal fade" id="view_approve" role="dialog">
+                                        <div class="modal custom-modal fade" id="view_approve--{{ $conge->id }}"
+                                            role="dialog">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-body">

@@ -120,7 +120,7 @@ class UserController extends Controller
         $users = User::join("services", 'services.id', '=', 'users.service_id')->where('users.id', $ids)->first();
         $files = Document::where('user_id', $ids)->get();
         $contrats = Contrat::where('user_id', $ids)->get();
-        return view('rh.details')->with(compact('users', 'files','contrats'));
+        return view('rh.details')->with(compact('users', 'files', 'contrats'));
     }
 
     public function uploadDoc(Request $request, $id)
@@ -214,7 +214,7 @@ class UserController extends Controller
                 $id = Contrat::select('id')->where('id', $id)->latest()->first();
 
 
-                Contrat::where('id',$id)->update(['date_fin' => $now]);
+                Contrat::where('id', $id)->update(['date_fin' => $now]);
 
                 // Inserer contrat dans la Bdd
                 $contrat = new Contrat();
@@ -252,5 +252,54 @@ class UserController extends Controller
 
             return back()->with('success', 'Nouveau contrat ajouter');
         }
+    }
+
+    public function restPassword(Request $request)
+    {
+        $rules = [
+            'email' => 'required',
+        ];
+
+        $customMessages = [
+            'email.required' => 'Entrez votre email',
+        ];
+
+        $this->validate($request, $rules, $customMessages);
+
+        if ($request->isMethod('post')) {
+            $data = $request->all();
+            $email = User::where('email', $data['email'])->count();
+            if ($email == 0) {
+                return redirect()->back()->with('error', "Cet email n'existe pas.");
+            }
+            $colors = dechex(mt_rand(0, 16777215));
+            $color = str_pad($colors, 6, '0');
+            $random_password = "#" . '' . $color;
+
+            $random_password = "12345678";
+
+            //Encodage
+            $new_password = bcrypt($random_password);
+
+            //Nouveau mot de passe
+            User::where('email', $data['email'])->update(['password' => $new_password]);
+
+            // Envoi du mot de passe par email
+            $email = $data['email'];
+            $data =
+                array(
+                    "body" => "Notification pour contact",
+                    'email' => $email,
+                    'password' => $random_password
+                );
+
+            Mail::send('emails.forgot_password', $data, function ($message) use ($email) {
+                $message->to($email)
+                    ->subject('Nouveau mot de passe');
+                    $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');      
+            });
+        }
+
+        return redirect()->back()->with('message', "Nouveau mot de passe envoyé dans votre boite mail.");
     }
 }

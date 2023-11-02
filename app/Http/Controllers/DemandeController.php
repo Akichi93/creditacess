@@ -47,6 +47,6 @@ class DemandeController extends Controller
         $demandes->etat = 1;
         $demandes->save();
 
-        return back()->with('success', 'Service modifie avec succes');
+        return back()->with('success', 'Demande modifie avec succes');
     }
 }

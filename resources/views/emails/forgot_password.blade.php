@@ -1,0 +1,1 @@
+<h4>Bonjour, voutre nouveau mot de passe est <b>{{ $password }}</b></h4>

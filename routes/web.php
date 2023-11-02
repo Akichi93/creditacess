@@ -23,6 +23,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/reset', function () {
+    return view('auth.reset');
+});
+
 Auth::routes();
 
 
@@ -37,6 +41,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/contratuser/{id}', [UserController::class, 'contratUser'])->name('user.contrat');
     Route::get('/personnel', [UserController::class, 'personnel']);
     Route::get('/details/{id}', [UserController::class, 'details'])->name('users.details');
+    Route::post('/resetpassword', [UserController::class, 'resetPassword'])->name('user.reset');
 
 
     //services
@@ -62,5 +67,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/addmission', [MissionController::class, 'missionAdd'])->name('mission.add');
     Route::get('/allmission', [MissionController::class, 'missionAll']);
     Route::get('/respomission', [MissionController::class, 'missionRespo']);
-    // Route::post('/updatedemande/{id}', [MissionController::class, 'demandeUpdate'])->name('demande.update');
+    Route::post('/validaterhmission/{id}', [MissionController::class, 'validateRh'])->name('mission.validaterh');
+    Route::post('/validaterespomission/{id}', [MissionController::class, 'validateRespo'])->name('mission.validaterespo');
 });

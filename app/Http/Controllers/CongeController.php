@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use App\Models\User;
 use App\Models\Conge;
 use App\Models\Respo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DateTime;
+use Illuminate\Support\Facades\Mail;
 
 class CongeController extends Controller
 {
@@ -18,7 +20,6 @@ class CongeController extends Controller
 
     public function congeAdd(Request $request)
     {
-
         //validation
         $rules = [
             'type' => 'required',
@@ -78,7 +79,7 @@ class CongeController extends Controller
         $respoId = Respo::select('id')->where('service_id', Auth::user()->service_id)->value('id');
 
         //Verifier si la personne qui fait la demande est un reponsable
-        $userId = Respo::where('user_id', Auth::user()->id)->get();
+        $userId = Respo::where('user_id', Auth::user()->id)->value('id');
 
         if ($userId == null) {
             $etat = 0;
@@ -106,66 +107,98 @@ class CongeController extends Controller
 
         if ($userId == null) {
             // Envoie d'email a la responsable RH
-            // dd($userId);
+            $email = User::select('email')->join("services", 'services.id', '=', 'users.service_id')->where('rh', 'OUI')->value('email');
+            if ($email == null) {
+                return back()->with('danger', 'Veuillez contacter l\'administration');
+            }
+
+            $b = User::select('*')
+                ->where('id', $user->id)
+                ->get();
+            $array = json_decode(json_encode($b), true);
+            $ar = $array[0];
+            $civilite_respo = $ar['civilite'];
+            $nom_respo = $ar['name'];
+            $prenom_respo = $ar['prenom'];
+
+            // envoi de mail à la RH
+            if ($request->isMethod('post')) {
+                $data = $request->all();
+                $data = array(
+                    "body" => "Notification de demande de congé",
+                    'email' => $email,
+                    'date_debut' => $data['date_debut'],
+                    'date_fin' => $data['date_fin'],
+                    'type' => $data['type'],
+                    'civilite' => $civilite_respo,
+                    'name' => $nom_respo,
+                    'prenom' => $prenom_respo,
+                );
+
+                Mail::send('emails.congesrespo', $data, function ($message) use ($email) {
+                    $message->to($email)
+                        ->subject('CONGE');
+                    $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
+                });
+            }
         } else {
+            $email_rh = User::select('email')->join("services", 'services.id', '=', 'users.service_id')->where('rh', 'OUI')->value('email');
+
+            if ($email_rh == null) {
+                $email_respo = User::select('email')->join("respos", 'respos.users.id', '=', 'users.id')->where('respos.user_id', $respoId)->value('email');
+                // envoi de mail au responsable
+                if ($request->isMethod('post')) {
+                    $data = $request->all();
+                    $data = array(
+                        "body" => "Notification de demande de congé",
+                        'email' => $email_respo,
+                        'date_debut' => $data['date_debut'],
+                        'date_fin' => $data['date_fin'],
+                        'type' => $data['type'],
+                        'civilite' => Auth::user()->civilite,
+                        'name' => Auth::user()->name,
+                        'prenom' => Auth::user()->prenom,
+                    );
+
+                    Mail::send('emails.congescollaborateur', $data, function ($message) use ($email_respo) {
+                        $message->to($email_respo)
+                            ->subject('CONGE');
+                        $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
+                    });
+                }
+                return back()->with('danger', 'Veuillez contacter l\'administration');
+            } else {
+                $email_respo = User::select('email')->join("respos", 'respos.users.id', '=', 'users.id')->where('respos.user_id', $respoId)->value('email');
+                $email_rh = User::select('email')->join("services", 'services.id', '=', 'users.service_id')->where('rh', 'OUI')->value('email');
+                // envoi de mail au responsable
+                if ($request->isMethod('post')) {
+                    $data = $request->all();
+                    $data = array(
+                        "body" => "Notification de demande de congé",
+                        'email' => $email_respo,
+                        'date_debut' => $data['date_debut'],
+                        'date_fin' => $data['date_fin'],
+                        'type' => $data['type'],
+                        'civilite' => Auth::user()->civilite,
+                        'name' => Auth::user()->name,
+                        'prenom' => Auth::user()->prenom,
+                    );
+
+                    Mail::send('emails.congescollaborateur', $data, function ($message) use ($email_respo) {
+                        $message->to($email_respo)
+                            ->subject('CONGE');
+                        $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
+                    });
+
+                    Mail::send('emails.congescollaborateur', $data, function ($message) use ($email_rh) {
+                        $message->to($email_rh)
+                            ->subject('CONGE');
+                        $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
+                    });
+                }
+            }
         }
-        // envoi de mail
-        // if ($request->isMethod('post')) {
-        //     $data = $request->all();
 
-        //     $name = $request->respo;
-
-        //     $a = DB::table('respos')
-        //         ->select('*')
-        //         ->join("users", 'respos.user_id', '=', 'users.id')
-        //         ->where('respos.id_respo', $name)
-        //         ->get();
-
-        //     $array = json_decode(json_encode($a), true);
-        //     $ar = $array[0];
-        //     $to_email = $ar['email'];
-        //     $r_civil = $ar['civilite'];
-        //     $r_name = $ar['name'];
-        //     $r_prenom = $ar['prenom'];
-
-        //     $b = DB::table('users')
-        //         ->select('*')
-        //         ->where('id',$user->id)
-        //         ->get();
-
-        //     $barray = json_decode(json_encode($b), true);
-        //     $br = $barray[0];
-        //     $civil = $br['civilite'];
-        //     $name = $br['name'];
-        //     $prenom = $br['prenom'];
-
-
-
-        //     $data = array(
-        //         "body" => "Notification",
-        //         'motif' => $data['motif'],
-        //         'date_debut' => $data['date_debut'],
-        //         'date_fin' => $data['date_fin'],
-        //         'r_civil' => $r_civil,
-        //         'r_name' => $r_name,
-        //         'r_prenom' => $r_prenom,
-        //         'civil' => $civil,
-        //         'name' => $name,
-        //         'prenom' => $prenom,
-        //     );
-
-        //     Mail::send('emails.conge', $data, function ($message) use ($to_email) {
-        //         $message->to($to_email)
-        //             ->subject('Notification');
-        //         $message->from('info@aroapartners.com', 'Aroapartners');
-        //     });
-
-        // Mail::send('emails.congerh', $data, function ($message) use ($to_email) {
-        //     $message->to('vanessa.bogui@aroapartners.com')
-        //         ->subject('Notification');
-        //     $message->from('info@aroapartners.com', 'Aroapartners');
-        // });
-        // }
         if ($request->type == "PERMISSION") {
             return back()->with('success', 'Permission démandé avec succes');
         }
@@ -189,23 +222,68 @@ class CongeController extends Controller
 
     public function validateRepo(Request $request, $id)
     {
-        $conges = Conge::find($id);
-        $conges->etat = $request->etat;
-        $conges->motif_etat = $request->motif_etat;
-        $conges->save();
+        try {
+            $conges = Conge::find($id);
+            $conges->etat = $request->etat;
+            $conges->motif_etat = $request->motif_etat;
+            $conges->save();
 
 
-        return back()->with('success', 'Validation avec succes');
+            if ($request->isMethod('post')) {
+                $data = $request->all();
+                $email = Conge::select('email')->join("users", 'users.id', '=', 'conges.user_id')->where('conges.id', $id)->value('email');
+                $data = array(
+                    "body" => "Validation du responsable",
+                    'type' => $data['etat'],
+                );
+
+                Mail::send('emails.congescollaborateur', $data, function ($message) use ($email) {
+                    $message->to($email)
+                        ->subject('CONGE');
+                    $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
+                });
+            }
+
+
+            return back()->with('success', 'Validation avec succes');
+        } catch (\Exception $exception) {
+            //     die("Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration. erreur:" . $exception);
+            return back()->with('erreur', 'Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration');
+        }
     }
 
     public function validateRh(Request $request, $id)
     {
-        $conges = Conge::find($id);
-        $conges->etat = $request->etat;
-        // $conges->motif_etat = $request->motif_etat;
-        $conges->save();
+        try {
+            
+            $conges = Conge::find($id);
+            $conges->etat = $request->etat;
+            // $conges->motif_etat = $request->motif_etat;
+            $conges->save();
+
+            $email = Conge::select('email')->join("users", 'users.id', '=', 'conges.user_id')->where('conges.id', $id)->value('email');
+
+            if ($request->isMethod('post')) {
+                $data = $request->all();
+                $data = array(
+                    "body" => "Validation des ressources humaines",
+                    'type' => $data['etat'],
+                );
+
+                Mail::send('emails.congescollaborateur', $data, function ($message) use ($email) {
+                    $message->to($email)
+                        ->subject('CONGE');
+                    $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
+                });
+            }
 
 
-        return back()->with('success', 'Validation avec succes');
+
+
+            return back()->with('success', 'Validation avec succes');
+        } catch (\Exception $exception) {
+            //     die("Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration. erreur:" . $exception);
+            return back()->with('erreur', 'Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration');
+        }
     }
 }

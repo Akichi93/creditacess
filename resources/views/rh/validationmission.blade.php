@@ -79,7 +79,7 @@
                                         @else
                                             Pas d'action
                                         @endif
-                                        <div class="modal custom-modal fade" id="view_approve" role="dialog">
+                                        <div class="modal custom-modal fade" id="view_approve--{{ $mission->id }}" role="dialog">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-body">

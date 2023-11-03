@@ -37,6 +37,13 @@
             </div>
         @endif
 
+        @if ($message = Session::get('danger'))
+            <div class="alert alert-danger alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
+
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
@@ -50,7 +57,7 @@
                                 <th>Date de retour</th>
                                 <th>Motif</th>
                                 <th class="text-center">Etat</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody>
@@ -60,8 +67,8 @@
                                     <td>{{ $conge->type_conge }}</td>
                                     <td>{{ $conge->date_debut }}</td>
                                     <td>{{ $conge->date_fin }}</td>
-                                    <td>{{ $conge->duree  }} jour(s)</td>
-                                    <td>{{ $conge->date_retour  }}</td>
+                                    <td>{{ $conge->duree }} jour(s)</td>
+                                    <td>{{ $conge->date_retour }}</td>
                                     <td>{{ $conge->motif }}</td>
                                     <td class="text-center">
                                         @if ($conge->etat == 0)
@@ -90,8 +97,8 @@
                                             </div>
                                         @endif
                                     </td>
-                                   
-                                   
+
+
 
                                 </tr>
                             @endforeach

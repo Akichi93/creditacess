@@ -87,10 +87,11 @@ class CongeController extends Controller
                 $etat = 1;
             }
 
-            // Verifier si le demandeur à déja une demande encours
+            // Verification
 
-            $last = Conge::select('etat')->where('user_id',Auth::user()->id)->max('id');
-            dd($last);
+            if($jourouvre > 30){
+                return back()->with('danger', 'Vous ne pouvez pas demander plus de 30 jours');
+            }
 
 
 

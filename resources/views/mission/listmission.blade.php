@@ -98,6 +98,14 @@
                             <input type="number" name="frais_mission" class="form-control">  
                         </div>
                         <div class="input-block mb-3">
+                            <label class="col-form-label">Date de debut <span class="text-danger">*</span></label>
+                            <input type="date" name="date_debut" class="form-control">  
+                        </div>
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Date de fin <span class="text-danger">*</span></label>
+                            <input type="date" name="date_fin" class="form-control">  
+                        </div>
+                        <div class="input-block mb-3">
                             <label class="col-form-label">Agence <span class="text-danger">*</span></label>
                             <input type="text" name="agence" class="form-control">  
                         </div>

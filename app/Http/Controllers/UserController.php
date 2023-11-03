@@ -39,6 +39,7 @@ class UserController extends Controller
             'prenom.required' => 'Veuillez entrer le prenom de l\'utilisateur',
             'poste.required' => 'Veuillez entrer le prenom de l\'utilisateur',
             'email.required' => 'Veuillez entre l\'email ',
+            'email.unique' => 'Cet email existe',
             'password.required' => 'Veuillez entrez un mot de passe ',
             'password.min' => 'Veuillez entrez un mot de passe d\'au moins 8 caractères',
             'password.regex' => 'Le mot de passe doit contenir des majuscules miniscules et symboles',

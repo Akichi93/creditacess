@@ -47,7 +47,7 @@
                     align: 'left',
                     text: 'Collaborateur par service'
                 },
-              
+
                 accessibility: {
                     announceNewData: {
                         enabled: true
@@ -83,9 +83,9 @@
                 series: [{
                     name: 'Nombre',
                     colorByPoint: true,
-                    data:  {!! $json !!}
+                    data: {!! $json !!}
                 }],
-              
+
             });
         </script>
     @endpush
@@ -103,52 +103,58 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-                <div class="card dash-widget">
-                    <div class="card-body">
-                        <span class="dash-widget-icon"><i class="fa-solid fa-cubes"></i></span>
-                        <div class="dash-widget-info">
-                            <h3>{{ $conges }}</h3>
-                            <span>CONGE</span>
+
+        @if (Auth::user()->rh != 'OUI')
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+                    <div class="card dash-widget">
+                        <div class="card-body">
+                            <span class="dash-widget-icon"><i class="fa-solid fa-cubes"></i></span>
+                            <div class="dash-widget-info">
+                                <h3>{{ $conges }}</h3>
+                                <span>CONGE</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-                <div class="card dash-widget">
-                    <div class="card-body">
-                        <span class="dash-widget-icon"><i class="fa-solid fa-dollar-sign"></i></span>
-                        <div class="dash-widget-info">
-                            <h3>{{ $demandes }}</h3>
-                            <span>Demande</span>
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+                    <div class="card dash-widget">
+                        <div class="card-body">
+                            <span class="dash-widget-icon"><i class="fa-solid fa-dollar-sign"></i></span>
+                            <div class="dash-widget-info">
+                                <h3>{{ $demandes }}</h3>
+                                <span>Demande</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-                <div class="card dash-widget">
-                    <div class="card-body">
-                        <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
-                        <div class="dash-widget-info">
-                            <h3>{{ $missions }}</h3>
-                            <span>Mission</span>
+                <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+                    <div class="card dash-widget">
+                        <div class="card-body">
+                            <span class="dash-widget-icon"><i class="fa-regular fa-gem"></i></span>
+                            <div class="dash-widget-info">
+                                <h3>{{ $missions }}</h3>
+                                <span>Mission</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+        @endif
 
-        </div>
+        @if (Auth::user()->rh == 'OUI')
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="container"></div>
+                </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <div id="container"></div>
+                <div class="col-md-6">
+                    <div id="exemple"></div>
+                </div>
+
             </div>
+        @endif
 
-            <div class="col-md-6">
-                <div id="exemple"></div>
-            </div>
-
-        </div>
     </div>
 @endsection

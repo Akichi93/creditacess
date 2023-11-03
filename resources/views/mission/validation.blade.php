@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        use App\Models\User;
+    @endphp
     <div class="content container-fluid">
 
         <div class="page-header">
@@ -54,7 +57,16 @@
                             @foreach ($missions as $conge)
                                 <tr>
                                     <td>{{ $conge->type_conge }}</td>
-                                    <td>{{ $conge->name }} {{ $conge->prenom }}</td>
+                                    <td>
+                                        @php
+                                            $demande = User::where('id', $conge->user_id)->get();
+                                            $array = json_decode(json_encode($demande), true);
+                                            $ar = $array[0];
+                                            $name = $ar['name'];
+                                            $prenom = $ar['prenom'];
+
+                                        @endphp
+                                        {{ $name }} {{ $prenom }}</td>
                                     <td>{{ $conge->date_debut }}</td>
                                     <td>{{ $conge->date_fin }}</td>
                                     <td>{{ $conge->duree }} jour(s)</td>

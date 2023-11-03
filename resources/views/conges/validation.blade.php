@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        use App\Models\User;
+    @endphp
     <div class="content container-fluid">
 
         <div class="page-header">
@@ -56,7 +59,18 @@
                             @foreach ($conges as $conge)
                                 <tr>
                                     <td>{{ $conge->type_conge }}</td>
-                                    <td>{{ $conge->name }} {{ $conge->prenom }}</td>
+                                    <td>
+                                        @php
+                                            $demande = User::where('id', $conge->user_id)->get();
+                                            $array = json_decode(json_encode($demande), true);
+                                            $ar = $array[0];
+                                            $name = $ar['name'];
+                                            $prenom = $ar['prenom'];
+
+                                        @endphp
+
+                                        {{ $name }} {{ $prenom }}
+                                    </td>
                                     <td>{{ $conge->date_debut }}</td>
                                     <td>{{ $conge->date_fin }}</td>
                                     <td>{{ $conge->duree }} jour(s)</td>
@@ -77,13 +91,15 @@
 
 
                                         @if ($conge->etat == 0)
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#view_approve--{{ $conge->id }}"><i
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#view_approve--{{ $conge->id }}"><i
                                                     class="fa fa-eye m-r-5"></i>
                                             </a>
                                         @else
                                             Pas d'action
                                         @endif
-                                        <div class="modal custom-modal fade" id="view_approve--{{ $conge->id }}" role="dialog">
+                                        <div class="modal custom-modal fade" id="view_approve--{{ $conge->id }}"
+                                            role="dialog">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
                                                     <div class="modal-body">

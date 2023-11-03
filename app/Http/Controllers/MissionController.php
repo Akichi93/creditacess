@@ -189,7 +189,7 @@ class MissionController extends Controller
     public function missionRespo()
     {
         $respo = Respo::join("users", 'users.id', '=', 'respos.user_id')->where('user_id', Auth::user()->id)->value('respos.id');
-        $missions = Mission::join("users", 'users.id', '=', 'missions.user_id')->where('respo_id', $respo)->get();
+        $missions = Mission::where('respo_id', $respo)->get();
         return view('mission.validation')->with(compact('missions'));
     }
 

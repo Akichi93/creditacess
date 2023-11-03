@@ -1,1 +1,1 @@
-<h4>Bonjour, voutre nouveau mot de passe est <b>{{ $password }}</b></h4>
+<h4>Bonjour, votre nouveau mot de passe est <b>{{ $password }}</b></h4>

@@ -89,7 +89,7 @@ class CongeController extends Controller
 
             // Verification
 
-            if($jourouvre > 30){
+            if ($jourouvre > 30) {
                 return back()->with('danger', 'Vous ne pouvez pas demander plus de 30 jours');
             }
 
@@ -229,7 +229,7 @@ class CongeController extends Controller
     public function congeRespo()
     {
         $respo = Respo::join("users", 'users.id', '=', 'respos.user_id')->where('user_id', Auth::user()->id)->value('respos.id');
-        $conges = Conge::join("users", 'users.id', '=', 'conges.user_id')->where('respo_id', $respo)->get();
+        $conges = Conge::where('respo_id', '=', $respo)->get();
         return view('conges.validation')->with(compact('conges'));
     }
 
@@ -245,12 +245,14 @@ class CongeController extends Controller
             if ($request->isMethod('post')) {
                 $data = $request->all();
                 $email = Conge::select('email')->join("users", 'users.id', '=', 'conges.user_id')->where('conges.id', $id)->value('email');
+
                 $data = array(
                     "body" => "Validation du responsable",
                     'type' => $data['etat'],
+                    'email' => $email,
                 );
 
-                Mail::send('emails.congescollaborateur', $data, function ($message) use ($email) {
+                Mail::send('emails.validationcongerespo', $data, function ($message) use ($email) {
                     $message->to($email)
                         ->subject('CONGE');
                     $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');

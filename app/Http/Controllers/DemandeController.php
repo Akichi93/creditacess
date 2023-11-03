@@ -80,10 +80,16 @@ class DemandeController extends Controller
 
     public function demandeUpdate(Request $request, $id)
     {
-        $demandes = Demande::find($id);
-        $demandes->etat = 1;
-        $demandes->save();
+        try {
+            $demandes = Demande::find($id);
+            $demandes->etat = 1;
+            $demandes->save();
 
-        return back()->with('success', 'Demande modifie avec succes');
+            return back()->with('success', 'Demande modifie avec succes');
+            
+        } catch (\Exception $exception) {
+            //     die("Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration. erreur:" . $exception);
+            return back()->with('erreur', 'Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration');
+        }
     }
 }

@@ -25,23 +25,7 @@
 
     <ul class="nav user-menu">
 
-        <li class="nav-item">
-            <div class="top-nav-search">
-                <a href="javascript:void(0);" class="responsive-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </a>
-                <form action="search.html">
-                    <input class="form-control" type="text" placeholder="Rechercher">
-                    <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
-            </div>
-        </li>
-
-
-
-
-
-
+      
 
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">

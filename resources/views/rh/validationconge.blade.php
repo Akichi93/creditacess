@@ -41,6 +41,7 @@
                         <thead>
                             <tr>
                                 <th>Type</th>
+                                <th>Nom du demandeur</th>
                                 <th>De</th>
                                 <th>A</th>
                                 <th>Nombre de jour</th>
@@ -55,6 +56,7 @@
                             @foreach ($conges as $conge)
                                 <tr>
                                     <td>{{ $conge->type_conge }}</td>
+                                    <td>{{ $conge->name }} {{ $conge->prenom }}</td>
                                     <td>{{ $conge->date_debut }}</td>
                                     <td>{{ $conge->date_fin }}</td>
                                     <td>{{ $conge->duree }} jour(s)</td>

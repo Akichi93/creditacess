@@ -270,39 +270,44 @@ class UserController extends Controller
         ];
 
         $this->validate($request, $rules, $customMessages);
+        try {
 
-        if ($request->isMethod('post')) {
-            $data = $request->all();
-            $email = User::where('email', $data['email'])->count();
-            if ($email == 0) {
-                return redirect()->back()->with('error', "Cet email n'existe pas.");
+            if ($request->isMethod('post')) {
+                $data = $request->all();
+                $email = User::where('email', $data['email'])->count();
+                if ($email == 0) {
+                    return redirect()->back()->with('error', "Cet email n'existe pas.");
+                }
+                $colors = dechex(mt_rand(0, 16777215));
+                $color = str_pad($colors, 6, '0');
+                $random_password = "#" . '' . $color;
+
+                //Encodage
+                $new_password = bcrypt($random_password);
+
+                //Nouveau mot de passe
+                User::where('email', $data['email'])->update(['password' => $new_password]);
+
+                // Envoi du mot de passe par email
+                $email = $data['email'];
+                $data =
+                    array(
+                        "body" => "Notification pour contact",
+                        'email' => $email,
+                        'password' => $random_password
+                    );
+
+                Mail::send('emails.forgot_password', $data, function ($message) use ($email) {
+                    $message->to($email)
+                        ->subject('Nouveau mot de passe');
+                    $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
+                });
             }
-            $colors = dechex(mt_rand(0, 16777215));
-            $color = str_pad($colors, 6, '0');
-            $random_password = "#" . '' . $color;
 
-            //Encodage
-            $new_password = bcrypt($random_password);
-
-            //Nouveau mot de passe
-            User::where('email', $data['email'])->update(['password' => $new_password]);
-
-            // Envoi du mot de passe par email
-            $email = $data['email'];
-            $data =
-                array(
-                    "body" => "Notification pour contact",
-                    'email' => $email,
-                    'password' => $random_password
-                );
-
-            Mail::send('emails.forgot_password', $data, function ($message) use ($email) {
-                $message->to($email)
-                    ->subject('Nouveau mot de passe');
-                $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
-            });
+            return redirect()->back()->with('message', "Nouveau mot de passe envoyé dans votre boite mail.");
+        } catch (\Exception $exception) {
+            //     die("Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration. erreur:" . $exception);
+            return back()->with('erreur', 'Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration');
         }
-
-        return redirect()->back()->with('message', "Nouveau mot de passe envoyé dans votre boite mail.");
     }
 }

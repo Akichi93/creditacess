@@ -30,7 +30,7 @@
                         </ul>
                     </li>
                 @endif
-                @if (Auth::user()->respo == 'OUI')
+                @if (Auth::user()->respo == 'OUI' && Auth::user()->rh != 'OUI')
                     <li class="submenu">
                         <a href="#"><i class="la la-rocket"></i> <span> Reponsables</span> <span
                                 class="menu-arrow"></span></a>

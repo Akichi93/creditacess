@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table table-striped custom-table leave-employee-table mb-0 datatable">
+                    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th>Agence</th>
@@ -57,7 +57,7 @@
                                     <td>{{ $mission->name }} {{ $mission->prenom }}</td>
                                     <td>{{ $mission->date_debut }}</td>
                                     <td>{{ $mission->date_fin }} jour(s)</td>
-                                    <td>{{ $mission->frais }}</td>
+                                    <td>{{ $mission->frais_mission }}</td>
                                     <td class="text-center">
                                         @if ($mission->etat == 0)
                                             <span class="badge bg-inverse-secondary">EN COURS</span>
@@ -116,6 +116,15 @@
                             @endforeach
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Agence</th>
+                                <th>Collaborateur</th>
+                                <th>Date de debut</th>
+                                <th>Date de fin</th>
+                                <th>Frais</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

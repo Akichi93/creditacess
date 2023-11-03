@@ -15,30 +15,30 @@
             </div>
         </div>
         @if ($errors->any())
-        <div class="alert alert-danger" role="alert">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    @if ($message = Session::get('success'))
-        <div class="alert alert-primary alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>{{ $message }}</strong>
-        </div>
-    @endif
+        @if ($message = Session::get('success'))
+            <div class="alert alert-primary alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
 
-    
-    @if ($message = Session::get('danger'))
-        <div class="alert alert-primary alert-block">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            <strong>{{ $message }}</strong>
-        </div>
-    @endif
+
+        @if ($message = Session::get('danger'))
+            <div class="alert alert-primary alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+            </div>
+        @endif
 
         <div class="card mb-0">
             <div class="card-body">
@@ -76,12 +76,14 @@
                                             </li>
 
                                             <li>
-                                                <div class="title">Type de contrat:</div>
-                                                <div class="text">{{ $users->type_contrat }}</div>
-                                            </li>
-                                            <li>
                                                 <div class="title">Sexe:</div>
-                                                <div class="text"></div>
+                                                <div class="text">
+                                                    @if ($users->civilite == 'M.')
+                                                        HOMME
+                                                    @else
+                                                        FEMME
+                                                    @endif
+                                                </div>
 
                                             </li>
                                         </ul>
@@ -108,7 +110,7 @@
             </div>
         </div>
         <div class="tab-content">
-          
+
             <div id="emp_profile" class="pro-overview tab-pane fade show active">
                 <div class="row">
                     <div class="col-md-12 d-flex">
@@ -158,20 +160,20 @@
                                         <th>Date de début</th>
                                         <th>Date de fin</th>
                                         <th>Salaire</th>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($contrats as $contrat)
-                                    <tr>
-                                        <td>{{ $contrat->type_contrat }}</td>
-                                        <td>{{ $contrat->date_debut }}</td>
-                                        <td>{{ $contrat->date_fin }}</td>
-                                        <td>{{ $contrat->salaire }}</td>
-                                       
-                                    </tr>
+                                        <tr>
+                                            <td>{{ $contrat->type_contrat }}</td>
+                                            <td>{{ $contrat->date_debut }}</td>
+                                            <td>{{ $contrat->date_fin }}</td>
+                                            <td>{{ $contrat->salaire }}</td>
+
+                                        </tr>
                                     @endforeach
-                              
+
                                 </tbody>
                             </table>
                         </div>

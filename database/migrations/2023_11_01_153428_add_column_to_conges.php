@@ -14,8 +14,8 @@ class AddColumnToConges extends Migration
     public function up()
     {
         Schema::table('conges', function (Blueprint $table) {
-            $table->text('motif')->after('respo_id');
-            $table->text('motif_etat')->after('motif')->nullable();
+            $table->longText('motif')->after('respo_id')->nullable();
+            $table->longText('motif_etat')->after('motif')->nullable();
             $table->string('type_conge')->after('motif_etat');
         });
     }

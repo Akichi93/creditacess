@@ -17,6 +17,7 @@ class ServiceSeeder extends Seeder
         $servicesRecords = [
             ['id'=>1,'nom_service'=>'IT','created_at'=>NULL,'updated_at'=>NULL],      
             ['id'=>2,'nom_service'=>'MARKETING','created_at'=>NULL,'updated_at'=>NULL],      
+            ['id'=>3,'nom_service'=>'RH','created_at'=>NULL,'updated_at'=>NULL],      
         ];
 
         Service::insert($servicesRecords);

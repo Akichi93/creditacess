@@ -46,66 +46,70 @@ class UserController extends Controller
         ];
 
         $this->validate($request, $rules, $customMessages);
+        try {
 
-
-        // Insertion utilisateur de la bdd
-        if ($request->service == null) {
-            return back()->with('error', 'Veuillez selectionnez un service');
-        }
-
-
-        $user = new User;
-        $user->name = $request->name;
-        $user->prenom = $request->prenom;
-        $user->email = $request->email;
-        $user->poste = $request->poste;
-        $user->civilite = $request->civilite;
-        $user->service = $request->service;
-        $user->service_id = $request->service;
-        $user->respo = $request->respo;
-        $user->rh = $request->rh;
-        $user->role = $request->role;
-        $user->date_debut_embauche = $request->date_debut_embauche;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        // Insertion du reponsable de la bdd
-        if ($request->service != null) {
-            $id = $user->id;
-            if ($request->respo == "OUI") {
-                // Insert Responsable d'un service
-                $respo = new Respo();
-                $respo->user_id = $id;
-                $respo->service_id = $request->service;
-                $respo->save();
+            // Insertion utilisateur de la bdd
+            if ($request->service == null) {
+                return back()->with('error', 'Veuillez selectionnez un service');
             }
+
+
+            $user = new User;
+            $user->name = $request->name;
+            $user->prenom = $request->prenom;
+            $user->email = $request->email;
+            $user->poste = $request->poste;
+            $user->civilite = $request->civilite;
+            $user->service = $request->service;
+            $user->service_id = $request->service;
+            $user->respo = $request->respo;
+            $user->rh = $request->rh;
+            $user->role = $request->role;
+            $user->date_debut_embauche = $request->date_debut_embauche;
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            // Insertion du reponsable de la bdd
+            if ($request->service != null) {
+                $id = $user->id;
+                if ($request->respo == "OUI") {
+                    // Insert Responsable d'un service
+                    $respo = new Respo();
+                    $respo->user_id = $id;
+                    $respo->service_id = $request->service;
+                    $respo->save();
+                }
+            }
+
+            //Envoie d'email
+
+            $data = $request->all();
+
+            //Envoi du mot de passe par email
+            $email = $data['email'];
+            $name = $data['name'];
+            $data =
+                array(
+                    "body" => "Notification de création de compte",
+                    'email' => $email,
+                    'name' => $name,
+                    'password' => $request->password
+                );
+
+            Mail::send('emails.users', $data, function ($message) use ($email) {
+                $message->to($email)
+                    ->subject('Compte ACCESS CREDIT');
+                $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
+            });
+
+
+
+
+            return back()->with('success', 'Collaborateur crée avec succès');
+        } catch (\Exception $exception) {
+            //     die("Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration. erreur:" . $exception);
+            return back()->with('erreur', 'Impossible de se connecter à la base de données.  Veuillez vérifier votre configuration');
         }
-
-        //Envoie d'email
-
-        $data = $request->all();
-
-        //Envoi du mot de passe par email
-        $email = $data['email'];
-        $name = $data['name'];
-        $data =
-            array(
-                "body" => "Notification de création de compte",
-                'email' => $email,
-                'name' => $name,
-                'password' => $request->password
-            );
-
-        Mail::send('emails.users', $data, function ($message) use ($email) {
-            $message->to($email)
-                ->subject('Compte ACCESS CREDIT');
-            $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
-        });
-
-
-
-
-        return back()->with('success', 'Collaborateur crée avec succès');
     }
 
     public function personnel()
@@ -294,7 +298,7 @@ class UserController extends Controller
             Mail::send('emails.forgot_password', $data, function ($message) use ($email) {
                 $message->to($email)
                     ->subject('Nouveau mot de passe');
-                    $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');      
+                $message->from('associecourtage@gmail.com', 'ACCESS CREDIT');
             });
         }
 

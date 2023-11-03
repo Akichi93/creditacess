@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table class="table table-striped custom-table leave-employee-table mb-0 datatable">
+                    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%"  export-title="test">
                         <thead>
                             <tr>
                                 <th>Type</th>
@@ -123,8 +123,21 @@
 
                                 </tr>
                             @endforeach
+                       
 
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Type</th>
+                                <th>De</th>
+                                <th>A</th>
+                                <th>Nombre de jour</th>
+                                <th>Date de retour</th>
+                                <th>Motif</th>
+                                {{-- <th class="text-center">Etat</th>
+                                <th class="text-center">Action</th> --}}
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

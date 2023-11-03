@@ -19,6 +19,9 @@ class CreateMissionsTable extends Migration
             $table->string('agence');
             $table->foreignId('user_id');
             $table->foreignId('respo_id');
+            $table->date('date_debut');
+            $table->date('date_fin');
+            $table->longText('description')->nullable();
             $table->integer('etat')->default(0)->comment('0 = encours, 1 = accepte, 2 = refuse, 3 = valide');
 
             $table->foreign('user_id')

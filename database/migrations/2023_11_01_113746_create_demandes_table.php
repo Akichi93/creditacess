@@ -24,8 +24,9 @@ class CreateDemandesTable extends Migration
                 ->on('users')
                 ->onDelete('cascade');
 
-            $table->timestamps();
+            $table->longText('description')->nullable();
 
+            $table->timestamps();
         });
     }
 

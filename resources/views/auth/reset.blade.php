@@ -9,9 +9,9 @@
     <meta name="keywords"
         content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
-    <title>Forgot Password - HRMS admin template</title>
+    <title>Mot de passe oublie - Gestion Rh</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('logo.png') }}">
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
@@ -31,8 +31,8 @@
             <div class="container">
 
                 <div class="account-logo">
-                    <a href="admin-dashboard-1.html"><img src="{{ asset('logo.png') }}"
-                            alt="Dreamguy's Technologies"></a>
+                    <a href="{{ url('/reset') }}"><img src="{{ asset('logo.png') }}"
+                            alt="LOGO"></a>
                 </div>
 
                 @if (session('error'))

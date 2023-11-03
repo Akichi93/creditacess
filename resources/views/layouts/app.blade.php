@@ -5,13 +5,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Smarthr - Bootstrap Admin Template">
-    <meta name="keywords"
-        content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
-    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
-    <title>Dashboard - HRMS admin template</title>
+    <meta name="description" content="RH - Bootstrap">
+    <meta name="keywords" content="admin">
+    <meta name="author" content="AKICHI JEAN_PHILIPPE">
+    <title>Application de gestion RH </title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('logo.png') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
 
@@ -145,7 +144,16 @@
                 $("#example").DataTable({
                     dom: 'Bfrtip',
                     buttons: [
-                        'copy', 'csv', 'excel', 'pdf', 'print'
+                        // {
+                        //     extend: 'excelHtml5',
+                        //     title: 'Data export'
+                            
+                        // },
+                        // {
+                        //     extend: 'pdfHtml5',
+                        //     title: 'Data export'
+                        // },
+                         'csv', 'excel'
                     ],
                     "language": {
                         "sProcessing": "Traitement...",
@@ -170,8 +178,37 @@
                             "sSortAscending": ": Activer pour trier les colonnes par ordre croissant",
                             "sSortDescending": ": Activer pour trier la colonne par ordre décroissant"
                         }
-                    }
+                    },
+                    initComplete: function() {
+                        this.api()
+                            .columns()
+                            .every(function() {
+                                let column = this;
 
+                                // Create select element
+                                let select = document.createElement('select');
+                                select.add(new Option(''));
+                                column.footer().replaceChildren(select);
+
+                                // Apply listener for user change in value
+                                select.addEventListener('change', function() {
+                                    var val = DataTable.util.escapeRegex(select.value);
+
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                                // Add list of options
+                                column
+                                    .data()
+                                    .unique()
+                                    .sort()
+                                    .each(function(d, j) {
+                                        select.add(new Option(d));
+                                    });
+                            });
+                    }
                 });
             });
         </script>
